@@ -1,0 +1,78 @@
+﻿@using InventoryManagement.ViewModel
+@model IEnumerable<InventoryManagement.ViewModel.InventoryViewModel>
+
+@{
+    ViewData["Title"] = "InventoryList";
+}
+
+<h1>InventoryList</h1>
+
+@using (Html.BeginForm("SearchItem", "Inventory", FormMethod.Post))
+{
+    <div class="card-columns">
+        <label class="control-label">Search</label>
+        <input class="form-control" name="SearchInventory"/>
+        <input type="submit" value="Search" class="btn btn-primary" />
+    </div>
+}
+
+<p>
+    <a href="/Inventory/Inventory">Add New Inventory</a>
+</p>
+
+ <div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemDescription)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemSku)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemQuantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemMinimumQuantity)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr style="background:@(item.ItemQuantity < item.ItemMinimumQuantity ? "yellow" : "none");">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemDescription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemSku)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemQuantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemMinimumQuantity)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Check In", "CheckIn", new {  id=item.Id }) |
+                        @Html.ActionLink("Check Out", "CheckOut", new { id=item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+ </div>
